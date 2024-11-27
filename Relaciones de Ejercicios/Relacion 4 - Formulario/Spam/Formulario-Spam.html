@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" >
+    <title>Formulario de Spam</title>
+  </head>
+  <body style="font-family: Verdana;">
+    <header>
+      <h1>Formulario de Spam</h1>
+    </header>
+
+    <main>
+        <form action="./mostrar.php" method="post" enctype="multipart/form-data">
+
+            <label for="nombre">Nombre: </label>
+            <input type="text" id="nombre" name="nombre"><br><br>
+
+            <label for="telefono">Telefono: </label>
+            <input type="number" id="telefono" name="telefono"><br><br>
+
+            <label for="correo">Correo: </label>
+            <input type="text" id="correo" name="correo"><br><br>
+
+            <input type="submit" formmethod="post" value="Enviar">
+        </form>
+    </main>
+  </body>
+</html>

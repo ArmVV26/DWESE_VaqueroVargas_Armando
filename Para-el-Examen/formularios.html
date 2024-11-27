@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario</title>
+</head>
+<body>
+
+    <main>
+        <form action="" method="post" enctype="multipart/form-data">
+            <p>Formulario de Ejemplo: </p>
+        <fieldset>
+            <legend>Leyenda de Ejemplo</legend>
+            <table>
+
+                <tr>
+                    <th>Tipo text: </th>
+                    <td>
+                        <input type="text" id="tipo_texto" name="tipo_texto">
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>Tipo pass: </th>
+                    <td>
+                        <input type="password" id="tipo-pass" name="tipo_pass">
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>Tipo email: </th>
+                    <td>
+                        <input type="email" id="tipo-email" name="tipo_email">
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>Tipo telefono: </th>
+                    <td>
+                        <input type="tel" id="tipo-tel" name="tipo_tel">
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>Tipo URL: </th>
+                    <td>
+                        <input type="url" id="tipo-url" name="tipo_url">
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>Tipo number: </th>
+                    <td>
+                        <input type="number" id="tipo-number" name="tipo_number">
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>Tipo color: </th>
+                    <td>
+                        <input type="color" id="tipo-color" name="tipo_color">
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>Tipo date: </th>
+                    <td>
+                        <input type="date" id="tipo-date" name="tipo_date">
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>Tipo Select: </th>
+                    <td>
+                        <select name="lista">
+                            <option value="Opcion1">Opcion-1</option>
+                            <option value="Opcion2">Opcion-2</option>
+                            <option value="Opcion3">Opcion-3</option>
+                            <option value="Opcion4">Opcion-4</option>
+                        </select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>Ejemplo de radio: </th>
+                    <td>
+                        <input type="radio" id="op1" name="radio-opciones" value="1">
+                        <label for="op1">1</label>
+
+                        <input type="radio" id="op2" name="radio-opciones" value="2">
+                        <label for="op2">2</label>
+
+                        <input type="radio" id="op3" name="radio-opciones" value="3">
+                        <label for="op3">3</label>
+
+                        <input type="radio" id="op4" name="radio-opciones" value="4" checked>
+                        <label for="op4">4</label>
+                        
+                        <input type="radio" id="op5" name="radio-opciones" value="5">
+                        <label for="op5">5</label>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>Ejemplo de radio: </th>
+                    <td>
+                        <input type="range" id="rango" name="rango" min="0" max="50">
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>Ejemplo de checkbox:</th>
+                    <td>
+                        <input type="checkbox" id="opcion1" name="check-opciones[]" value="Opcion1">
+                        <label for="opcion1">Opcion1</label>
+
+                        <input type="checkbox" id="opcion2" name="check-opciones[]" value="Opcion2">
+                        <label for="opcion2">Opcion2</label>
+
+                        <input type="checkbox" id="opcion3" name="check-opciones[]" value="Opcion3" checked>
+                        <label for="opcion3">Opcion3</label>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>Ejemplo de enviar <br>archivos:</th>
+                    <td>
+                        <input type="file" id="archivos" name="Aire[]" accept="image/*" multiple>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>Observaciones:</th>
+                    <td>
+                        <textarea name="observaciones" id="observaciones" rows="5" cols="60" 
+                            placeholder="Por ejemplo: Aire acondicionado frio/calor, trastero ..." 
+                            style="resize: none;"></textarea>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <input type="submit" formmethod="post" value="Insertar vivienda">
+                    </td>
+                    <td>
+                        <input type="reset" value="Reiniciar Formulario">
+                    </td>
+                </tr>
+
+            </table>
+        </fieldset>
+        </form>
+    </main>
+
+</body>
+</html>

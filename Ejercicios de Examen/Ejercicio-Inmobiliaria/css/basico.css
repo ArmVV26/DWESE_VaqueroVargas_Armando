@@ -1,0 +1,19 @@
+body{
+    font-family: Verdana;
+}
+h1{
+    color: blue;
+}
+th,td{
+    text-align: left;
+    font-size: small;
+}
+.borde{
+    border-color: blue;
+    border-style: dashed;
+    margin-right: 65%;
+}
+span{
+    color: red;
+    font-weight: bold;
+}

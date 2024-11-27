@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" >
+    <title>Formulario Inicial</title>
+  </head>
+  <body style="font-family: Verdana;">
+    <header>
+      <h1>Alta Alumnos</h1>
+    </header>
+
+    <main>
+        <form action="./mostrar.php" method="post" enctype="multipart/form-data">
+
+            <label for="nombre">Nombre: </label>
+            <input type="text" id="nombre" name="nombre"><br><br>
+
+            <label for="apellidos">Apellidos: </label>
+            <input type="text" id="apellidos" name="apellidos"><br><br>
+
+            <label for="fechaNac">Fecha de Nacimiento: </label>
+            <input type="date" id="fechaNac" name="fechaNac"><br><br>
+
+            <label for="mail">Correo Electrónico: </label>
+            <input type="text" id="mail" name="mail"><br><br>
+
+            <p>¿Qué lenguajes de programación conoces?</p>
+            <input type="checkbox" id="lenguaje1" name="lenguajes[]" value="C++">
+            <label for="lenguaje1">C++</label>
+            <input type="checkbox" id="lenguaje2" name="lenguajes[]" value="Javascript">
+            <label for="lenguaje2">Javascript</label>
+            <input type="checkbox" id="lenguaje3" name="lenguajes[]" value="Php">
+            <label for="lenguaje3">Php</label>
+            <input type="checkbox" id="lenguaje4" name="lenguajes[]" value="Python">
+            <label for="lenguaje4">Phyton</label><br><br>
+
+            <p>¿Sabes crear páginas web estáticas?</p>
+            <input type="radio" id="opcion1" name="paginaWeb" value="Si">
+            <label for="opcion1">Si</label>
+            <input type="radio" id="opcion2" name="paginaWeb" value="No">
+            <label for="opcion2">No</label><br><br>
+      
+            <label for="comentarios">Comentarios:</label><br>
+            <textarea name="comentarios" id="comentarios" rows="5" cols="60" style="resize: none;"></textarea><br><br>
+
+            <label for="pass">Contraseña: </label>
+            <input type="text" id="pass" name="pass"><br><br>
+
+            <label for="pass2">Repita la contraseña: </label>
+            <input type="text" id="pass2" name="pass2"><br><br>
+
+            <input type="submit" formmethod="post" value="Enviar"><br><br>
+        </form>
+
+        <a href='../Formulario-Acceso/Formulario-Acceso.php'>[ Ir al Formulario Inicial ]</a>
+    </main>
+
+  </body>
+</html>
