@@ -15,8 +15,6 @@
             $arrayUno[] = $numAlt;
             $arrayDos[] = $numAlt**2;
             $arrayTres[] = $numAlt**3;
-
-
         }
 
         function mostrarArray($array) {

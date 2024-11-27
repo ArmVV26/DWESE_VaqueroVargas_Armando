@@ -15,7 +15,8 @@
         }
 
         echo "Cadena normal: " . $cadena . "<br>";
-        echo "Cadena al reves: " . $alreves;
+        echo "Cadena al reves: " . $alreves . "<br>";
+        echo "Cadena al reves (Funcion): " . strrev($cadena);
  
     ?>
 </body>

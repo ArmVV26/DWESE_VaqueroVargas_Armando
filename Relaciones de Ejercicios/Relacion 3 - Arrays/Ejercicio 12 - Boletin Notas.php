@@ -15,9 +15,10 @@
             background-color: white;
         }
         th, td {
-            border: 1px solid #000;
+            border: 4px groove white;
             padding: 10px;
             text-align: center;
+            background-color: #66ccff;
         }
         th {
             font-weight: bold;
