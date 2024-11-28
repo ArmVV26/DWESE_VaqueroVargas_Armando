@@ -27,7 +27,7 @@
         if ($_SERVER["REQUEST_METHOD"] == "GET") {
             
             $idVivienda = ($_GET['idVivienda']) ?? null;
-            $rutasFotos = ($_GET['rutasFotos']) ?? null;
+            $rutasFotos = ($_GET['rutasFotos']) ?? [];
             $errores = ($_GET['errores']) ?? null;
 
             $vivienda = htmlspecialchars($_GET['vivienda']) ?? null;
@@ -49,8 +49,8 @@
             echo "<li>Zona: $zona</li>";
             echo "<li>Dirección: $direccion</li>";
             echo "<li>Número de dormitorios: $dormitorios</li>";
-            echo "<li>Precio: $precio</li>";
-            echo "<li>Tamaño: $tamaño</li>";
+            echo "<li>Precio: $precio €</li>";
+            echo "<li>Tamaño: $tamaño m²</li>";
             
             //Recorre el array extras y muestra las opciones que se han seleccionado
             $extrasCadena = "Ninguno";
@@ -64,7 +64,7 @@
                 }
             }  
 
-           echo "<li>Extras: $extrasCadena</li>";
+            echo "<li>Extras: $extrasCadena</li>";
 
            // Recorro el array de las rutas de las fotos y las muestro con un enlace
             if (count($rutasFotos) > 0) {

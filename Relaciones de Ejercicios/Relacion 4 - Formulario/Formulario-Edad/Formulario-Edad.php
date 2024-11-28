@@ -13,7 +13,7 @@
     <main>
         <form action="" method="post" enctype="multipart/form-data">
 
-            <label for="edad">Usuario: </label>
+            <label for="edad">Edad: </label>
             <input type="date" id="edad" name="edad"><br><br>
 
             <input type="submit" formmethod="post" value="Entrar">
@@ -33,7 +33,7 @@
         }
 
         date_default_timezone_set('UTC');
-        $fechaActual = date("o\-m\-d");
+        $fechaActual = date("Y-m-d");
         
         if ($edad !== null) {
             

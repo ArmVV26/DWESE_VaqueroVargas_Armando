@@ -17,7 +17,7 @@
 
             $fechaActual = date('Y-m-d');
 
-            $archivoInmobiliaria = '../viviendas.txt';
+            $archivoInmobiliaria = 'viviendas.txt';
             $registro = 1;
 
             if (file_exists($archivoInmobiliaria)) {
@@ -53,9 +53,11 @@
                     $dormitorios = intval($_POST['dormitorios']) ?? '';
                     $precio = intval($_POST['precio']) ?? '';
                     $tamaño = intval($_POST['tamaño']) ?? '';
-                    $extras = ($_POST['extras']) ?? '';
-                    $fotos = ($_FILES['fotos']) ?? '';
-                    $observaciones = htmlspecialchars($_POST['observaciones']) ?? 'Ninguna';
+                    $extras = ($_POST['extras']) ?? null;
+                    $fotos = ($_FILES['fotos']) ?? [];
+                    $observaciones = !empty($_POST['observaciones']) ? 
+                                        htmlspecialchars($_POST['observaciones']) : 
+                                        'Ninguna Observación' ;
 
                     /*
                         Creo un array para guardar las rutas de las fotos para posteriormente mostrarlas
@@ -81,7 +83,7 @@
 
                     $rutasFotos = [];
                     $errores = [];
-                    if (!empty($fotos) && is_array($fotos['name'])) {
+                    if ($fotos['name'][0] !== '' && is_array($fotos['name'])) {
                         
                         $carpetaFotos = 'fotos/';
                         if (!file_exists($carpetaFotos)) {
@@ -104,11 +106,11 @@
                             if (move_uploaded_file($fotos['tmp_name'][$i], $rutaFinal)) {
                                 $rutasFotos[] = "../".$rutaFinal;
                             } else {
-                                $errores[] = "Error al subir la foto ". $fotos['name'][$i] ."<br>";
+                                $errores[] = "Error al subir la foto ". $fotos['name'][$i];
                             }
                         }
                     } else {
-                        $errores[] = "Las imagenes no estan bien validadas";
+                        $errores[] = "Las imagenes no estan bien validadas o no hay imagenes";
                     }
                     
                     /* 
