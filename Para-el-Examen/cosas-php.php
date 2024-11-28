@@ -127,6 +127,8 @@
               </ul>";
     }
 
+    saltoDeLinea();
+
     // STR_PAD 
     echo "<h1>Str_Pad</h1>";
     
