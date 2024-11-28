@@ -106,6 +106,7 @@
     saltoDeLinea();
 
     // SERVER -> Sanear y recoger datos
+    echo "<h1>Server</h1>";
 
     $texto = null;
     $numero = null;
@@ -125,4 +126,34 @@
                 <li>Numero: $numero</li>
               </ul>";
     }
+
+    // STR_PAD 
+    echo "<h1>Str_Pad</h1>";
+    
+    // Array bidimensional con datos de usuarios
+    $usuarios = [
+        ['nombre' => 'Juan', 'edad' => 25],
+        ['nombre' => 'María', 'edad' => 30],
+        ['nombre' => 'Carlos', 'edad' => 22],
+        ['nombre' => 'Ana', 'edad' => 27],
+        ['nombre' => 'Lucía', 'edad' => 35],
+    ];
+
+    // Fecha actual
+    $fecha = date('Ymd'); // Formato: AñoMesDía
+
+    // Función para generar ID
+    function generarID($fecha, $nombre, $edad) {
+        $letrasNombre = strtoupper(substr($nombre, 0, 2)); // Dos primeras letras del nombre, en mayúsculas
+        $edadFormateada = str_pad($edad, 2, "0", STR_PAD_LEFT); // Edad con dos dígitos (ej: 05, 27)
+        return $fecha . $letrasNombre . $edadFormateada;
+    }
+
+    // Mostrar IDs generados
+    echo "<h2>IDs Generados</h2><ul>";
+    foreach ($usuarios as $usuario) {
+        $id = generarID($fecha, $usuario['nombre'], $usuario['edad']);
+        echo "<li>Usuario: {$usuario['nombre']}, Edad: {$usuario['edad']}, ID: {$id}</li>";
+    }
+    echo "</ul>";
 ?>

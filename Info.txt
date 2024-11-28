@@ -1,0 +1,17 @@
+Brisca -> Todo lo de la brisca.
+Brisca Extra -> Lo mas basico de la brisca         
+                Crear Baraja    
+                Barajar
+                Mostrar
+                Rellenar Mano
+                Contar Puntuacion
+Inmobiliaria -> Formulario Sanitizado y Validado
+                Coger nombre de dentro de un fichero
+                    y añadir texto (str_pad)
+                Guardar fichero (file_put_contents)
+Examen Belen -> Isset()
+                GLOBAL
+                throw new Exception()
+                try{}catch (Exception $e){ $e->getMessage()}
+Gestion Empresarial -> Ordenar array bidi
+Relacion 3 > Ejercicio 8 > Array_map
