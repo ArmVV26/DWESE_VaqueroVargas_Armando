@@ -1,2 +1,2 @@
-# Contenido relacionado con la asignatura DWES
-En esta página encontraras información relacionada con la asignaturar DWES (PHP).
+# DWESE_VaqueroVargas_Armando
+Repositorio para la asignatura de Desarrollo Web en Entorno Servidor (PHP).
