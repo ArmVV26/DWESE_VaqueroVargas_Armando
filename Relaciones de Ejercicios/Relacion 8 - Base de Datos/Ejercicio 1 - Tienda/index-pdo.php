@@ -31,7 +31,7 @@
                 SELECT tiendas.nombre AS tienda, stock.unidades 
                 FROM tiendas 
                 INNER JOIN stock ON tiendas.cod = stock.tienda 
-                WHERE stock.producto = :producto
+                WHERE stock.codigoproducto = :producto
             ";
             $stmt = $pdo->prepare($stockQuery);
             $stmt->bindParam(':producto', $productoSeleccionado, PDO::PARAM_STR);
