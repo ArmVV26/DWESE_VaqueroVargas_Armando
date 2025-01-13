@@ -4,7 +4,7 @@
     session_start();
 
     $_SESSION['errorIdS'] = $_SESSION['errorIdS'] ?? 0;
-    $_SESSION['tiempoUltInt'] = $_SESSION['tiempoUltInt'] ?? null;
+    $_SESSION['bloqueo'] = $_SESSION['bloqueo'] ?? null;
 
     // Se establece la conexion
     require_once './config/config.php';
@@ -13,8 +13,23 @@
     $conexion = new Conexion();
     $pdo = $conexion->getPDO();
 
-    // Formulario de Inicio de Sesion
     $login = "";
+    $bloqueado = false;
+
+    // Verifico si el usuario esta bloqueado.
+    if ($_SESSION['bloqueo'] ) {
+        
+        if ($_SESSION['bloqueo'] > time()) {
+        
+            $tiempo_restante = $_SESSION['bloqueo'] - time();
+            $bloqueado = true;
+            // $login = "Has superado el numero de intentos, espera $tiempo_restante segundos";
+        } else {
+            $_SESSION['bloqueo'] = null;
+        }
+    }
+
+    // Formulario de Inicio de Sesion
     if (isset($_POST['login'])) {
 
         // Recojo los valores que paso por el formulario de Registro
@@ -24,7 +39,7 @@
         /*
             0. Compruebo que se introducen valores en el formulario.
             1. Compruebo que el correo esta dentro de la base de datos.
-            
+            2. Compruebo que la contraseña es correcta.
         */
 
         if ($correo && $password) {
@@ -48,10 +63,10 @@
                     
                     // Uso la sesion para que en bienvenido.php me muestre el correo.
                     $_SESSION['email'] = $correo;
+                    $_SESSION['errorIdS'] = 0; // Los errores se reinician.
+                    $_SESSION['bloqueo'] = null; // Se reinicia el bloqueo.
                     header("Location: php/bienvenido.php");
                 }else{
-                    // Guardo el tiempo en el que se ha intentado iniciar sesion.
-                    $_SESSION['tiempoUltInt'] = time();
                     // Sumo uno a los errores.
                     $_SESSION['errorIdS']++;
                 }
@@ -59,23 +74,17 @@
         }
     }
 
-    // Reiniciar la varible
-    // $_SESSION['errorIdS'] = 0;
+    // $_SESSION['errorIdS'] = 0; // Los errores se reinician.
 
-    // Hacer que el usuario no haga mas de 5 intentos durante 5 segundos.
+    // Compruebo el numero de intentos Bloqueo.
     echo $_SESSION['errorIdS'];
-    $bloqueado = "";
     if ($_SESSION['errorIdS'] >= 3) {
+
+        $tiempo_bloqueado = ($_SESSION['errorIdS'] - 2) * 5; 
+        $_SESSION['bloqueo'] = time() + $tiempo_bloqueado;
         
-        echo "<br>". $_SESSION['tiempoUltInt'] ."<br>";
-        echo time() ."<br>";
-        echo $_SESSION['tiempoUltInt'] - time();
-        if ($_SESSION['tiempoUltInt'] && $_SESSION['tiempoUltInt'] > time()) {
-            $tiempo_restante = $_SESSION['tiempoUltInt'] - time();
-            $login = "Bloqueado durante ". $tiempo_restante ." segundos";
-            $bloqueado = "disabled";
-        }
-        
+        $bloqueado = true;
+        $login = "Has superado el numero de intentos, espera $tiempo_bloqueado segundos";
     }
 ?>
 
@@ -86,6 +95,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/style.css">
     <title>Formulario de Inico de Sesion</title>
+    <script>
+        // JavaScript para la cuenta regresiva y desbloqueo automático
+        let tiempoRestante = <?php echo $tiempo_restante; ?>;
+        const formInputs = document.querySelectorAll("input[type='mail'], input[type='password'], input[type='submit']");
+        const timerElement = document.getElementById("timer");
+
+        if (tiempoRestante > 0) {
+            formInputs.forEach(input => input.disabled = true);
+
+            const interval = setInterval(() => {
+                if (tiempoRestante <= 0) {
+                    clearInterval(interval);
+                    formInputs.forEach(input => input.disabled = false);
+                    timerElement.textContent = "";
+                } else {
+                    timerElement.textContent = `Tiempo restante: ${tiempoRestante} segundos`;
+                    tiempoRestante--;
+                }
+            }, 1000);
+        }
+    </script>
 </head>
 <body>
     
@@ -94,12 +124,12 @@
     <form action="" method="POST" enctype="multipart/form-data">
 
         <label for="email">Correo: </label>
-        <input type="mail" id="email" name="email" <?php echo $bloqueado ?>><br><br>
+        <input type="mail" id="email" name="email"><br><br>
         
         <label for="pass">Contraseña: </label>
-        <input type="password" id="pass" name="pass" <?php echo $bloqueado ?>><br><br>
+        <input type="password" id="pass" name="pass" ><br><br>
 
-        <input type="submit" formmethod="post" name="login" value="Iniciar Sesion" <?php echo $bloqueado ?>>
+        <input type="submit" formmethod="post" name="login" value="Iniciar Sesion">
     </form>
     
     <p class="error rojo"><?php echo $login; ?></p><br>
