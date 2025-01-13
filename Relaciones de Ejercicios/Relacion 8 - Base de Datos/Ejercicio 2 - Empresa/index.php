@@ -1,29 +1,10 @@
 <?php
 
-    // Funcion para obtener el ultimo ID disponible
-    function obtenerID($pdo) {
-        // Obtengo el menor ID disponible
-        $obtID = "
-            SELECT MIN(user1.id + 1) AS next_id
-            FROM usuarios user1 
-            LEFT JOIN usuarios user2 
-            ON user1.id + 1 = user2.id
-            WHERE user2.id IS NULL;
-        ";
-        /*
-            query -> Ejecuta la consulta directamente, sin verificar nada.
-                    Al no usarse ningun dato externo se podria usar en este caso.
-            
-            prepare -> Es el que siempre se deberia usar, ya que verifica la inyeccion SQL.
+    // Inicio las sesiones
+    session_start();
 
-            Enlace: https://es.stackoverflow.com/questions/452639/diferencia-consultas-preparadas-y-atributo-pdosqlsrv-attr-direct-query
-        */
-        $stmt = $pdo->query($obtID);
-        // Con fecth obtenemos un array asociativo con la clave "next_id"
-        $row = $stmt->fetch();
-        // Devuelvo el valor y en el caso de que no tenga se le pone por defecto 1.
-        return $row['next_id'] ?? 1;  
-    }
+    $_SESSION['errorIdS'] = $_SESSION['errorIdS'] ?? 0;
+    $_SESSION['tiempoUltInt'] = $_SESSION['tiempoUltInt'] ?? null;
 
     // Se establece la conexion
     require_once './config/config.php';
@@ -32,59 +13,6 @@
     $conexion = new Conexion();
     $pdo = $conexion->getPDO();
 
-    // Formulario de Registro
-    $registrado = "";
-    if (isset($_POST['register'])) {
-
-        // Recojo los valores que paso por el formulario de Registro
-        $correo = $_POST['email'];
-        $password = $_POST['pass'];
-
-        // Cifrado de la constraseña
-        $password_cifrada = password_hash($password, PASSWORD_BCRYPT, ['cost'=>4]);
-
-        /*
-            1. Compruebo que el email es valido.
-            2. Compruebo que no este ya registrado en la base de datos.
-        */
-        if (!filter_var($correo, FILTER_VALIDATE_EMAIL)) {
-            $registrado = "Error - El correo tiene que ser valido";
-        }else {
-            $comprobarEmail ="
-                SELECT id
-                FROM usuarios
-                WHERE email = :correo; 
-            ";
-            $stmt = $pdo->prepare($comprobarEmail);
-            $stmt->bindParam(':correo', $correo);
-            $stmt->execute();
-
-            if ($stmt->rowCount() > 0 ) {
-                $registrado = "ERROR - El correo ". $correo ." ya se encuentra registrado en el sistema";            
-            } else {
-                // Obtengo el ID
-                $id = obtenerID($pdo);
-
-                 // Insertar el usuario en la base de datos
-                $insertUsuario = "
-                    INSERT INTO usuarios (id, email, password_hash)
-                    VALUES (:id, :correo, :password);
-                ";
-
-                $stmt = $pdo->prepare($insertUsuario);
-                $stmt->bindParam(':id', $id);
-                $stmt->bindParam(':correo', $correo);
-                $stmt->bindParam(':password', $password_cifrada);
-
-                if ($stmt->execute()) {
-                    $registrado = "Usuario registrado correctamente con ID $id.";
-                } else {
-                    $registrado = "Error al registrar el usuario.";
-                }
-            } 
-        }
-    }
-
     // Formulario de Inicio de Sesion
     $login = "";
     if (isset($_POST['login'])) {
@@ -92,6 +20,62 @@
         // Recojo los valores que paso por el formulario de Registro
         $correo = $_POST['email'];
         $password = $_POST['pass'];
+
+        /*
+            0. Compruebo que se introducen valores en el formulario.
+            1. Compruebo que el correo esta dentro de la base de datos.
+            
+        */
+
+        if ($correo && $password) {
+
+            $comprobarEmail ="
+                SELECT id, password_hash
+                FROM usuarios
+                WHERE email = :correo;
+            ";
+            $stmt = $pdo->prepare($comprobarEmail);
+            $stmt->bindParam(':correo', $correo);
+            $stmt->execute();
+
+            if (!$stmt->rowCount() == 1) {
+                $login = "ERROR - El correo tiene que ser valido";
+                $_SESSION['errorIdS']++;
+            } else {
+                
+                $user = $stmt->fetch();
+                if (password_verify($password, $user['password_hash'])) {
+                    
+                    // Uso la sesion para que en bienvenido.php me muestre el correo.
+                    $_SESSION['email'] = $correo;
+                    header("Location: php/bienvenido.php");
+                }else{
+                    // Guardo el tiempo en el que se ha intentado iniciar sesion.
+                    $_SESSION['tiempoUltInt'] = time();
+                    // Sumo uno a los errores.
+                    $_SESSION['errorIdS']++;
+                }
+            }
+        }
+    }
+
+    // Reiniciar la varible
+    // $_SESSION['errorIdS'] = 0;
+
+    // Hacer que el usuario no haga mas de 5 intentos durante 5 segundos.
+    echo $_SESSION['errorIdS'];
+    $bloqueado = "";
+    if ($_SESSION['errorIdS'] >= 3) {
+        
+        echo "<br>". $_SESSION['tiempoUltInt'] ."<br>";
+        echo time() ."<br>";
+        echo $_SESSION['tiempoUltInt'] - time();
+        if ($_SESSION['tiempoUltInt'] && $_SESSION['tiempoUltInt'] > time()) {
+            $tiempo_restante = $_SESSION['tiempoUltInt'] - time();
+            $login = "Bloqueado durante ". $tiempo_restante ." segundos";
+            $bloqueado = "disabled";
+        }
+        
     }
 ?>
 
@@ -100,43 +84,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulario de Registro</title>
+    <link rel="stylesheet" href="css/style.css">
+    <title>Formulario de Inico de Sesion</title>
 </head>
 <body>
     
-    <h2>Formulario de Registro</h2>
+    <h2>Formulario de Incio de Sesion</h2>
 
     <form action="" method="POST" enctype="multipart/form-data">
 
         <label for="email">Correo: </label>
-        <input type="mail" id="email" name="email"><br><br>
+        <input type="mail" id="email" name="email" <?php echo $bloqueado ?>><br><br>
         
         <label for="pass">Contraseña: </label>
-        <input type="password" id="pass" name="pass"><br><br>
+        <input type="password" id="pass" name="pass" <?php echo $bloqueado ?>><br><br>
 
-        <input type="submit" formmethod="post" name="register" value="Registrar">
-    </form><br>
+        <input type="submit" formmethod="post" name="login" value="Iniciar Sesion" <?php echo $bloqueado ?>>
+    </form>
     
-    <b style="color:red;"><?php echo $registrado; ?></b><br><br>
-    <br>
+    <p class="error rojo"><?php echo $login; ?></p><br>
 
-    <hr>
-
-    <h2>Formulario de Registro</h2>
-
-    <form action="" method="POST" enctype="multipart/form-data">
-
-        <label for="email">Correo: </label>
-        <input type="mail" id="email" name="email"><br><br>
-        
-        <label for="pass">Contraseña: </label>
-        <input type="password" id="pass" name="pass"><br><br>
-
-        <input type="submit" formmethod="post" name="login" value="Registrar">
-    </form><br>
-    
-    <b style="color:red;"><?php echo $login; ?></b><br><br>
-    <br>
+    <a class="boton" href="php/registro.php">Formulario de Registro</a>
 
 </body>
 </html>

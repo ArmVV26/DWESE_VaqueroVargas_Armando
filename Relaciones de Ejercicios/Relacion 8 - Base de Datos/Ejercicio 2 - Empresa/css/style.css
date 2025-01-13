@@ -1,0 +1,33 @@
+*{
+    font-family: Verdana;
+}
+
+body{
+    text-align: center;
+}
+
+.error{
+    font-weight: bolder;
+}
+.rojo{
+    color: red;
+}
+.verde{
+    color: limegreen;
+}
+
+.boton{
+    text-decoration: none;
+    text-transform: uppercase;
+    
+    color: black;
+    padding: 0.75rem;
+    
+    background-color: beige;
+    border-radius: 1.5rem;
+    border: 1px solid black;
+}
+
+.boton:hover{
+    color: blue;
+}
