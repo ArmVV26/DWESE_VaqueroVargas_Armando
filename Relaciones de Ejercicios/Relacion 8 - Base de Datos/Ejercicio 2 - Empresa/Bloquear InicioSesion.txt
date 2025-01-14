@@ -1,0 +1,52 @@
+<?php
+    // Verifico si el usuario esta bloqueado.
+    if ($_SESSION['bloqueo'] ) {
+        
+        if ($_SESSION['bloqueo'] > time()) {
+        
+            $tiempo_restante = $_SESSION['bloqueo'] - time();
+            $bloqueado = true;
+            $login = "Has superado el numero de intentos, espera $tiempo_restante segundos";
+        } else {
+            $_SESSION['bloqueo'] = null;
+        }
+    }
+
+    // Compruebo el numero de intentos Bloqueo.
+    echo $_SESSION['errorIdS'];
+    if ($_SESSION['errorIdS'] >= 3) {
+
+        $tiempo_bloqueado = ($_SESSION['errorIdS'] - 2) * 5; 
+        $_SESSION['bloqueo'] = time() + $tiempo_bloqueado;
+        
+        $bloqueado = true;
+        $tiempo_restante = $tiempo_bloqueado;
+        $login = "Has superado el numero de intentos, espera $tiempo_bloqueado segundos";
+    }
+
+    <script>
+        // Variables iniciales del temporizador
+        let tiempoRestante = <?php echo $tiempo_restante; ?>;
+
+        // Bloquear campos si el tiempo restante es mayor a 0
+        const formInputs = document.querySelectorAll("input[type='mail'], input[type='password'], input[type='submit']");
+        const timerElement = document.getElementById("timer");
+
+        if (tiempoRestante > 0) {
+            formInputs.forEach(input => input.disabled = true); // Bloquear inputs
+
+            // Temporizador dinámico
+            const interval = setInterval(() => {
+                if (tiempoRestante <= 0) {
+                    clearInterval(interval);
+                    formInputs.forEach(input => input.disabled = false); // Desbloquear inputs
+                    timerElement.textContent = ""; // Limpiar temporizador
+                } else {
+                    timerElement.textContent = `Tiempo restante: ${tiempoRestante} segundos`;
+                    tiempoRestante--;
+                }
+            }, 1000);
+        }
+    </script>
+?>
+<p id="timer" class="error rojo"><?php echo $bloqueado ? "Tiempo restante: $tiempo_restante segundos" : ""; ?></p><br>

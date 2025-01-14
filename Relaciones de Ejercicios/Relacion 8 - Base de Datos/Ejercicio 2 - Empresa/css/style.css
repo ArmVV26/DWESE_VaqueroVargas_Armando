@@ -31,3 +31,21 @@ body{
 .boton:hover{
     color: blue;
 }
+
+.admin{
+    text-decoration: none;
+    text-transform: uppercase;
+    
+    color: gold;
+    padding: 0.25rem;
+    
+    background-color: black;
+    border-radius: 1.5rem;
+    border: 1px solid gold;
+}
+
+.admin:hover{
+    color: black;
+    background-color: gold;
+    border: 1px solid black;
+}
