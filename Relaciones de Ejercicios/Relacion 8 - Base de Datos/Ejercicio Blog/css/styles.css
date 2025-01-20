@@ -1,0 +1,88 @@
+/* Delcaracion de Variables para su posterior uso */
+:root {
+    /* Estilo de letra para las fuentes */
+    --font-Header: 'Jersey';
+    --font-General: 'Verdana';
+
+    /* Paleta de colores que se va a usar en la web */
+    --color-Web: #e3e3e3;
+    --color-Principal: #0f64c4;
+    --color-Nav: #d0d0d0;
+    --color-Border: #adadad;
+    --color-Texto-General: #262626;
+    --color-Texto-Inverso: #dddddd;
+}
+
+/* Declaro la fuente que me he descargado y las tengo 
+    guardada en la carpeta Fonts*/
+@font-face {
+    font-family: 'Jersey';
+    src: url(../fonts/Jersey15-Regular.ttf);
+}
+
+/* Hago un reset basico para eliminar los estilos predeterminados
+    de los navegadores para algunos aspectos del HTML*/
+* {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    text-decoration: none;
+    border: none;
+    outline: none;
+}
+
+/* FONDO DE LA WEB */
+body{
+    background-color: var(--color-Web);
+    font-family: var(--font-General);
+    color: var(--color-Texto-General);
+}
+
+/* VARIABLES GENERALES */
+/* HEADER */
+header{
+    text-align: center;
+    padding: 1rem;
+}
+
+h1{
+    font-family: var(--font-Header);
+    font-size: 3.5rem;
+    color: var(--color-Principal);
+    text-shadow: 3px 3px black;
+}
+
+nav{
+    margin-top: 1rem;
+    background-color: var(--color-Nav);
+    border: 2px solid var(--color-Border);
+    border-radius: 1rem;
+}
+
+nav ul{
+    display: flex;
+}
+
+nav ul li{
+    border-right: 2px solid var(--color-Border);
+    padding: 1rem;
+}
+
+nav a{
+    color: var(--color-Texto-General);
+}
+
+nav a:hover{
+    color: var(--color-Principal);
+}
+
+/* MAIN */
+main{
+    display: flex;
+    padding: 1rem;
+}
+
+aside{
+    display: flex;
+    flex-direction: column;    
+}
