@@ -1,26 +1,41 @@
 <?php
+// models/BaseDatos.php
 
-    require_once __DIR__  . '/../config/config.php';
+namespace Lib;
 
-    class Conexion {
-        private $pdo;
+use PDO;
+use PDOException;
 
-        public function __construct() {
-            try {
+class BaseDatos {
+    private $host;
+    private $dbname;
+    private $user;
+    private $pass;
+    private $connection;
 
-                $this->pdo = new PDO(SERVIDOR, USUARIO, PASS);
-                $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    public function __construct() {
+        $this->host = DB_HOST;
+        $this->dbname = DB_NAME;
+        $this->user = DB_USER;
+        $this->pass = DB_PASS;
+    }
 
-            } catch (PDOException $e) {
-                
-                die("Error al conectar a la base de datos: " . $e->getMessage());
-            }
-        }
-
-        public function getPDO() {
-            return $this->pdo;
+    public function connect() {
+        try {
+            $this->connection = new PDO(
+                "mysql:host={$this->host};dbname={$this->dbname}",
+                $this->user,
+                $this->pass
+            );
+            $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        } catch (PDOException $e) {
+            echo "Connection failed: " . $e->getMessage();
         }
     }
 
+    public function getConnection() {
+        return $this->connection;
+    }
 
-?>
+    
+}

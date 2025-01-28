@@ -8,7 +8,7 @@
 <body>
     <h1>Bienvenido a la Clinica Dolores</h1>
     <?php
-        require_once 'autoloader.php';
+        require_once 'lib/autoloader.php';
 
         use Models\Doctor;
         use Models\Paciente;

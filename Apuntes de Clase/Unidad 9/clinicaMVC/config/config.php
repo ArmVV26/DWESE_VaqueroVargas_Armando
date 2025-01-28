@@ -1,6 +1,5 @@
 <?php
-    define('SERVIDOR', 'localhost');
-    define('USUARIO', 'root');
-    define('PASS', '');
-    define('BASE_DATOS', 'miclinica');
-?>
+    define('DB_HOST', 'localhost');
+    define('DB_NAME', 'miclinica');
+    define('DB_USER', 'root');
+    define('DB_PASS', '');
