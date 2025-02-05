@@ -31,4 +31,4 @@ class Persona {
         }
         return $listaAutoresLibro;
     }
-}
+}   
