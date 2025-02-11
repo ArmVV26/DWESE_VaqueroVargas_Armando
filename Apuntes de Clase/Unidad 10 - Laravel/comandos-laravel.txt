@@ -1,0 +1,7 @@
+composer create-project laravel/laravel gestion_biblioteca
+cd gestion_biblioteca
+php artisan migrate
+php artisan make:migration create_books_table
+php artisan make:migration create_categories_table
+php artisan make:migration create_loans_table
+php artisan make:migration create_authors_table
